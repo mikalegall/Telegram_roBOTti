@@ -1,0 +1,5 @@
+newChatMembers=null, 
+newChatMembers=User{id=123, firstName='Pena',
+
+leftChatMember=null, 
+leftChatMember=User{id=456, firstName='Jorkka',
