@@ -12,6 +12,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import yoga.kulatantra.InitResponse;
 import yoga.kulatantra.Classes.UserIdAndIndex;
 
+/**
+ * @author Lare
+ *
+ */
 public class ReplyForSticker {
 
 	static List<String> responseForSticker = InitResponse.createRepliesForSticker();

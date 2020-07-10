@@ -13,6 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import yoga.kulatantra.Classes.UserIdAndIndex;
 
+/**
+ * @author Lare
+ *
+ */
 public class InitResponse {
 
 	static String importPathForStringResponses = "import_init/responsesForString.txt";

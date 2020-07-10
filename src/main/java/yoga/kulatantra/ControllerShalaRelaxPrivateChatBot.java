@@ -13,6 +13,7 @@ import java.util.HashMap;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +25,10 @@ import yoga.kulatantra.Services.ReplyForSticker;
 import yoga.kulatantra.Services.ReplyForString;
 import yoga.kulatantra.Services.ReplyForVideo;
 
+/**
+ * @author Lare
+ *
+ */
 public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 //	private static final Logger LOGGER = LogManager.getLogger(ControllerShalaRelaxBot.class);
 
@@ -38,11 +43,13 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 	public void onUpdateReceived(Update update) {
 //		LOGGER.info(update.toString());
 
-		// Save conversation
-		if (update.getMessage().getChat().getTitle() != null) {
+		User temVariableforRunaways = update.getMessage().getLeftChatMember();
+		
+		// Save conversation (&& dont save if it is just information that someone has left the group)
+		if (update.getMessage().getChat().getTitle() != null && temVariableforRunaways == null) {
 			// This is public group conversation
 			Boolean bot = false; // Message is from human user
-			writeConversationLog(update.toString(), publicGroupConversationPath, bot);			
+			writeConversationLog(update.toString(), publicGroupConversationPath, bot); 
 		} else {
 			// This is private conversation (when title is null)
 			Boolean bot = false; // Message is from human user
@@ -255,16 +262,18 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 		}
 	}
 	
+	
+	// t.me/ShalaRelaxBot
 	@Override
 	public String getBotUsername() {
-		return "@ShalaRelaxBot";
+		return "@ShalaRelaxPrivateChatBot";
 	}
 
 	@Override
 	public String getBotToken() {
-		return "TantraOnAgamanEsoteerinenPuoli";
+		return System.getenv().get("PRIVATE_CHAT_BOT_TOKEN");
 	}
-	
+
 }
 //FileOutputStream ulosmeno = new FileOutputStream(serializePath.toString());
 //ObjectOutputStream paketointi = new ObjectOutputStream(ulosmeno);

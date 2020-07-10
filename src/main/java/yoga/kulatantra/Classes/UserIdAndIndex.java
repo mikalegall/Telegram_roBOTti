@@ -2,6 +2,10 @@ package yoga.kulatantra.Classes;
 
 import lombok.Data;
 
+/**
+ * @author Lare
+ *
+ */
 // https://howtodoinjava.com/automation/lombok-eclipse-installation-examples/
 @Data
 public class UserIdAndIndex {

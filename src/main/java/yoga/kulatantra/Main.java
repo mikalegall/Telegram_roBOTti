@@ -13,7 +13,7 @@ public class Main {
 		try {
 			telegramBotsApi.registerBot(new ControllerShalaRelaxPrivateChatBot());
 			
-			// telegramBotsApi.registerBot(new ControllerShalaRelaxPublicGroupBot());
+			telegramBotsApi.registerBot(new ControllerShalaRelaxPublicGroupBot());
 			// newChatMembers=null, 
 			// newChatMembers=User{id=123, firstName='Lare',
 

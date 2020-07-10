@@ -12,7 +12,7 @@ Kotisivu löytyy [täältä](https://www.facebook.com/Shala-Relax-10696470103529
 <br />
 <br />
 <br />
-Servicet (tekstille, kuville jne) on ertoteltu sen takia omiin tiedostoihinsa, jotta ajansaatossa on mahdollista liittää tekstit IBM Watsoniin tai Annifiin, ja kuvat Azuren AI:lle 
+Servicet (tekstille, kuville jne) on eroteltu sen takia omiin tiedostoihinsa, jotta ajansaatossa on mahdollista liittää tekstit IBM Watsoniin tai Annifiin, ja kuvat Azuren AI:lle näppärän selkeästi
 <br />
 <br />
 <br />
