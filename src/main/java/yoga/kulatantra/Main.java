@@ -4,14 +4,15 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+// Heroku Procfile
+// --> worker: java $JAVA_OPTS -jar target/myTargetJar-SNAPSHOT.jar
+// https://stackoverflow.com/a/47997801/8639325
+
+// heroku logs --tail --app stagingshalarelax
+// heroku run bash --app stagingshalarelax
 public class Main {
 
 	public static void main(String[] args) {
-			
-		// Heroku: Procfile
-		// web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
-		// System.getenv().get("PORT");
-
 		
 		// Example taken from https://github.com/rubenlagus/TelegramBotsExample
 		ApiContextInitializer.init();
