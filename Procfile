@@ -1,2 +1,1 @@
-web: java -Dserver.port=$PORT -cp target/classes/:target/dependency $JAVA_OPTS -jar target/*.jar
-
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/*.jar --port $PORT -Dfile.encoding=UTF-8 -cp target/classes/:target/dependency
