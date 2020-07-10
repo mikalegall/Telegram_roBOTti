@@ -7,6 +7,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class Main {
 
 	public static void main(String[] args) {
+			
+		// Heroku: Procfile
+		// web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
+		// System.getenv().get("PORT");
+
+		
 		// Example taken from https://github.com/rubenlagus/TelegramBotsExample
 		ApiContextInitializer.init();
 		TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
