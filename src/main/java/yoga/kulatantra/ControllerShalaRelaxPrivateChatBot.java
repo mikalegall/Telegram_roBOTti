@@ -33,11 +33,12 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 //	private static final Logger LOGGER = LogManager.getLogger(ControllerShalaRelaxBot.class);
 
 //	StringBuilder serializePath = new StringBuilder("exported_users/" + userId + ".json");
-	String serializePath = "exported_users/listOfUsers.json";
+	static String serializePath = "exported_users/listOfUsers.json";
 	String publicGroupConversationPath = "logs/public_group_conversation.log";
 	String privateConversationPath = "logs/private_conversation.log";
 
-	HashMap<Integer, UserIdAndIndex> userStatus = InitResponse.importUserStatus(serializePath);
+	static HashMap<Integer, UserIdAndIndex> userStatus = InitResponse.importUserStatus(serializePath);
+
 
 	@Override
 	public void onUpdateReceived(Update update) {
@@ -73,6 +74,7 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 			newUser.setFirstName(update.getMessage().getFrom().getFirstName());
 			newUser.setStringIndex(0);
 			newUser.setPhotoIndex(0);
+			newUser.setGroupPhotoIndexViaAzureAndGoogle(1); // 0 has been reserved for Azure error message
 			newUser.setVideoIndex(0);
 			newUser.setDocumentIndex(0);
 			newUser.setStickerIndex(0);
@@ -83,33 +85,6 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 				objectMapperToJSON.writeValue(new File(serializePath.toString()), userStatus.values());
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-		}
-
-
-
-
-		// In this case we dont want to reply publicly on Telegram group (only private chats)
-		// 'title='null' means that this is private chat
-		if (update.getMessage().getChat().getTitle() == null) {
-
-			// We check if the update has a message and the message has PHOTO
-			if (update.hasMessage() && update.getMessage().hasPhoto()) {
-
-				// The service which will be called should handle request and reply with
-				// appropriate response for TelegramServerAPI
-				replieForPhoto = ReplyForPhoto.replyForPhoto(userStatus, update);
-
-				message.setChatId(update.getMessage().getChatId()).setText(replieForPhoto);
-
-				Boolean bot = true; // Message is from Bot
-				writeConversationLog(message.toString(), privateConversationPath, bot);
-
-				try {
-					execute(message); // Call method to send the message
-				} catch (TelegramApiException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 
@@ -198,6 +173,32 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 		// 'title='null' means that this is private chat
 		if (update.getMessage().getChat().getTitle() == null) {
 
+				// We check if the update has a message and the message has PHOTO
+				if (update.hasMessage() && update.getMessage().hasPhoto()) {
+					
+			// The service which will be called should handle request and reply with
+			// appropriate response for TelegramServerAPI
+			replieForPhoto = ReplyForPhoto.replyForPhoto(userStatus, update);
+
+			message.setChatId(update.getMessage().getChatId()).setText(replieForPhoto);
+
+			Boolean bot = true; // Message is from Bot
+			writeConversationLog(message.toString(), privateConversationPath, bot);
+
+			try {
+				execute(message); // Call method to send the message
+			} catch (TelegramApiException e) {
+				e.printStackTrace();
+			}
+		}
+		}
+
+
+
+		// In this case we dont want to reply publicly on Telegram group (only private chats)
+		// 'title='null' means that this is private chat
+		if (update.getMessage().getChat().getTitle() == null) {
+
 			// We check if the update has a message and the message has TEXT
 			if (update.hasMessage() && update.getMessage().hasText()) {
 
@@ -260,6 +261,12 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+
+	
+	public static HashMap<Integer, UserIdAndIndex> getUserStatus() {
+		return userStatus;
 	}
 	
 	
