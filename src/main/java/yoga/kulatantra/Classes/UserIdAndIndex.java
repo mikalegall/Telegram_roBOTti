@@ -13,6 +13,7 @@ public class UserIdAndIndex {
 	private String firstName;
 	private int stringIndex;
 	private int photoIndex;
+	private int groupPhotoIndexViaAzureAndGoogle;
 	private int videoIndex;
 	private int documentIndex;
 	private int stickerIndex;
@@ -23,6 +24,7 @@ public class UserIdAndIndex {
         		userId + ", (userId)"
         		+ "\r\n" + firstName + ", (firstName)"
         		+ "\r\n" + stringIndex + ", (stringIndex)"
+        		+ "\r\n" + groupPhotoIndexViaAzureAndGoogle + ", (groupPhotoIndexViaAzureAndGoogle)"
         		+ "\r\n" + photoIndex + ", (photoIndex)"
         		+ "\r\n" + videoIndex + ", (videoIndex)"
         		+ "\r\n" + documentIndex +", (documentIndex)"

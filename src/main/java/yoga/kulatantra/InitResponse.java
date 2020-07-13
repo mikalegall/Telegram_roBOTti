@@ -22,6 +22,7 @@ public class InitResponse {
 	static String importPathForStringResponses = "import_init/responsesForString.txt";
 	static String importPathForPhotoResponses = "import_init/responsesForPhoto.txt";
 	static String importPathForVideoResponses = "import_init/responsesForVideo.txt";
+	static String importPathForGroupPhotoIndexViaAzureAndGoogle = "import_init/responsesForGroupPhotoIndexViaAzureAndGoogle.txt";
 	static String importPathForDocumentResponses = "import_init/responsesForDocument.txt";
 	static String importPathForStickerResponses = "import_init/responsesForSticker.txt";
 
@@ -69,6 +70,13 @@ public class InitResponse {
 	}
 
 
+	public static List<String> createRepliesGroupPhotoIndexViaAzureAndGoogle() {
+
+		return createReplies(importPathForGroupPhotoIndexViaAzureAndGoogle);
+
+	}
+	
+	
 	public static List<String> createRepliesForVideo() {
 
 		return createReplies(importPathForVideoResponses);
