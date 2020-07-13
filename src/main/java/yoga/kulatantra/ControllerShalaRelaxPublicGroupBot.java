@@ -11,10 +11,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import yoga.kulatantra.Services.ReplyForPhoto;
 
 /**
  * @author Lare
@@ -30,7 +33,7 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 			+ "\r\n"
 			+ "Opas (chat robotti) eli minä."
 			+ "\r\n\r\n"
-			+ "Vaikka Avustajalla on admin-oikeudet, niin työnjaollisesti on sovittu, että vain minä osallistun täällä keskusteluun, mutta en vastaa yksityisviesteihin."
+			+ "Vaikka Avustajalla on admin-oikeudet, niin työnjaollisesti on sovittu, että vain minä osallistun täällä keskusteluun, ja silloinkin vain satunnaisesti kommentoin, mutta en vastaa yksityisviesteihin."
 			+ "\r\n"
 			+ "Ja Avustaja taasen vastaa vain yksityisviesteihin."
 			+ "\r\n"
@@ -40,9 +43,16 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 	
 	String publicGroupConversationPath = "logs/public_group_conversation.log";
 
+	
+	String serializePath = "exported_users/listOfUsers.json";
+
+//	HashMap<Integer, UserIdAndIndex> userStatus = ControllerShalaRelaxPrivateChatBot.getUserStatus();
+	
 	@Override
 	public void onUpdateReceived(Update update) {
 
+		String replieForPhoto;
+		
 		// Users display name on smartphone
 		String firstName = update.getMessage().getFrom().getFirstName();
 
@@ -80,8 +90,47 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 			} catch (TelegramApiException e) {
 				e.printStackTrace();
 			}
-		}
+		}		
 
+
+
+		// In this case want to reply publicly on Telegram group chat
+		// 'title='null' means that it would be a private chat so this is public group chat
+		if (update.getMessage().getChat().getTitle() != null) {
+			
+
+				// We check if the update has a message and the message has PHOTO
+				if (update.hasMessage() && update.getMessage().hasPhoto()) {
+		
+					// Photo is just a file so we need ID for that file to get it's location path
+					// and after that we can send it to Azure AI
+					String fileId = update.getMessage().getPhoto().get(0).getFileId();
+					String uploadedFilePathURL = "";
+					try {
+						GetFile getUploadedFile = new GetFile();
+						getUploadedFile.setFileId(fileId);
+						uploadedFilePathURL = execute(getUploadedFile).getFilePath();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					// The service which will be called should handle request and reply with
+					// appropriate response for TelegramServerAPI
+					replieForPhoto = ReplyForPhoto.replyForPhoto(ControllerShalaRelaxPrivateChatBot.getUserStatus(), update, uploadedFilePathURL);
+		
+					message.setChatId(update.getMessage().getChatId()).setText(replieForPhoto);
+		
+					Boolean bot = true; // Message is from Bot
+					writeConversationLog(message.toString(), publicGroupConversationPath, bot);
+		
+					try {
+						execute(message); // Call method to send the message
+					} catch (TelegramApiException e) {
+						e.printStackTrace();
+					}
+		}
+	}
+		
 	}
 
 	
