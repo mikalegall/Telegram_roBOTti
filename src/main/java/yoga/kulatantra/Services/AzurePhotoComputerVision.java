@@ -76,9 +76,8 @@ public class AzurePhotoComputerVision {
         try {
             analysis = compVisClient.computerVision().analyzeImage().withUrl(pathToImage)
                     .withVisualFeatures(featuresToExtractFromImage).execute();
-        }catch (Exception e) {        	
-            tagNoun.add("code400flag = " + e.toString());
-//        	tagNoun.add("code400flag");
+        }catch (Exception e) {
+                tagNoun.add("code400flag");
                 code400flag = true;
             }
 

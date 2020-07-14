@@ -54,10 +54,7 @@ public class ReplyForPhoto {
 					List<String> tagNounTranslatedAndAccentColor = AzurePhotoComputerVision.sendPhotoToAzure(subscriptionKey, endpoint, pathToImage);
 					// If response has only one element then it means that error has ocurred
 					if (tagNounTranslatedAndAccentColor.size() == 1) {
-						replieForPhoto = responseForGroupPhotoIndexViaAzureAndGoogle.get(0).replace("TELEGRAM_FirstName", firstName)
-								+ "\r\n\r\n"
-								+ tagNounTranslatedAndAccentColor.get(0);
-//						replieForPhoto = responseForGroupPhotoIndexViaAzureAndGoogle.get(0).replace("TELEGRAM_FirstName", firstName);
+						replieForPhoto = responseForGroupPhotoIndexViaAzureAndGoogle.get(0).replace("TELEGRAM_FirstName", firstName);
 						return replieForPhoto;
 					} else {
 						noun1 = tagNounTranslatedAndAccentColor.get(0);
