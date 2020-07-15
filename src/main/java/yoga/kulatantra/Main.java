@@ -1,11 +1,11 @@
 package yoga.kulatantra;
 
+// import yoga.kulatantra.Services.AzurePhotoComputerVisionManualTest;
 import org.apache.log4j.BasicConfigurator;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import yoga.kulatantra.Services.AzurePhotoComputerVisionManualTest;
 
 // Heroku Procfile
 // --> worker: java $JAVA_OPTS -jar target/myTargetJar-SNAPSHOT.jar
@@ -33,7 +33,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		AzurePhotoComputerVisionManualTest.sendPhotoManualyToAzure();
+//		AzurePhotoComputerVisionManualTest.sendPhotoManualyToAzure();
 	}
 
 }
