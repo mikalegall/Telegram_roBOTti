@@ -47,7 +47,7 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 	
 	String serializePath = "exported_users/listOfUsers.json";
 
-//	HashMap<Integer, UserIdAndIndex> userStatus = ControllerShalaRelaxPrivateChatBot.getUserStatus();
+	int indexForPhotoReplys = 0;
 	
 	@Override
 	public void onUpdateReceived(Update update) {
@@ -102,6 +102,13 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 
 				// We check if the update has a message and the message has PHOTO
 				if (update.hasMessage() && update.getMessage().hasPhoto()) {
+					
+					indexForPhotoReplys++;
+					// Bot will not reply to every photo message (only now and then)
+					if (indexForPhotoReplys == 1 || indexForPhotoReplys == 4 || indexForPhotoReplys == 7
+							|| indexForPhotoReplys == 12 || indexForPhotoReplys == 14
+							|| indexForPhotoReplys == 18) {
+
 		
 					// Photo is just a file so we need ID for that file to get it's location path
 					// and after that we can send it to Azure AI
@@ -123,12 +130,17 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 		
 					Boolean bot = true; // Message is from Bot
 					writeConversationLog(message.toString(), publicGroupConversationPath, bot);
+					
+					if (indexForPhotoReplys == 18) {
+						indexForPhotoReplys = 0;
+					}
 		
 					try {
 						execute(message); // Call method to send the message
 					} catch (TelegramApiException e) {
 						e.printStackTrace();
 					}
+				}
 		}
 	}
 		
