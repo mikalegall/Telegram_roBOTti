@@ -1,6 +1,6 @@
 package yoga.kulatantra.Services;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,13 @@ import com.google.cloud.translate.v3.TranslationServiceClient;
 
 // https://cloud.google.com/translate/docs/advanced/translating-text-v3#translating_text
 public class GoogleTranslateText {
-//	private static final Logger log = Logger.getLogger(GoogleTranslateText.class);
+	private static final Logger log = Logger.getLogger(GoogleTranslateText.class);
 
 	public static List<String> googleTranslateText(List<String> tagNoun) throws IOException {
 
+		if (tagNoun != null) {
+			
+		
 		String projectId = System.getenv("GOOGLE_PROJECT_ID");
 		// Supported Languages: https://cloud.google.com/translate/docs/languages
 		String targetLanguage = "fi";
@@ -32,12 +35,25 @@ public class GoogleTranslateText {
 		List<String> tagNounTranslatedPassingThrue = translateText(projectId, targetLanguage, translateMe);
 		return tagNounTranslatedPassingThrue;
 
+		} else {
+		List<String> emptyList = new ArrayList<>();
+		emptyList.add("Sombody called GoogleTranslateText with empty list googleTranslateText(tagNoun)");
+		return emptyList;
+		}
 	}
-
 	// Translating Text
 	public static List<String> translateText(String projectId, String targetLanguage, String[] translateMe)
 			throws IOException {
 
+		log.debug("TOKA GoogleTranslateText googleTranslateText() KÄÄNNETTÄVÄN TAULUKON SISÄLTÖ String[] translateMe = "
+		+ "\r\n"
+		+ translateMe[0]
+		+ ",\r\n"
+		+ translateMe[1]
+		+ ",\r\n"
+		+ translateMe[2]
+		+ "\r\n\r\n\r\n"
+		+ "**************************************************************************************************\r\n\r\n\r\n");
 		List<String> tagNounTranslated = new ArrayList<>();
 
 		for (String text : translateMe) {
@@ -60,7 +76,11 @@ public class GoogleTranslateText {
 						.setMimeType("text/plain").setTargetLanguageCode(targetLanguage).addContents(text).build();
 
 				TranslateTextResponse response = client.translateText(request);
-
+				log.debug("KOLMAS GoogleTranslateText googleTranslateText() SUOMENNETUN YKSITTÄISEN KÄÄNNÖKSEN SISÄLTÖ TranslateTextResponse response.getTranslationsList() = "
+						+ "\r\n"
+						+ response.getTranslationsList()
+						+ "\r\n\r\n\r\n"
+						+ "**************************************************************************************************\r\n\r\n\r\n");
 				// Display the translation for each input text provided
 				for (Translation translation : response.getTranslationsList()) {
 					tagNounTranslated.add(translation.getTranslatedText());
@@ -68,6 +88,12 @@ public class GoogleTranslateText {
 				client.close();
 			}
 		}
+		log.debug("NELJÄS GoogleTranslateText googleTranslateText() SUOMENNETUN KOKO LISTAN SISÄLTÖ tagNounTranslated.toString() = "
+				+ "\r\n"
+				+ tagNounTranslated.toString()
+				+ "\r\n\r\n\r\n"
+				+ "**************************************************************************************************\r\n\r\n\r\n");
+
 		return tagNounTranslated;
 	}
 }
