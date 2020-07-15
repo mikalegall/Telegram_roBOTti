@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -30,7 +29,7 @@ import yoga.kulatantra.Services.ReplyForVideo;
  *
  */
 public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
-//	private static final Logger LOGGER = LogManager.getLogger(ControllerShalaRelaxBot.class);
+//	private static final Logger log = Logger.getLogger(ControllerShalaRelaxPrivateChatBot.class);
 
 //	StringBuilder serializePath = new StringBuilder("exported_users/" + userId + ".json");
 	static String serializePath = "exported_users/listOfUsers.json";
@@ -42,8 +41,8 @@ public class ControllerShalaRelaxPrivateChatBot extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
-//		LOGGER.info(update.toString());
-
+//		log.debug("Private chat update-message = " + update.toString());
+		
 		User temVariableforRunaways = update.getMessage().getLeftChatMember();
 		
 		// Save conversation (&& dont save if it is just information that someone has left the group)

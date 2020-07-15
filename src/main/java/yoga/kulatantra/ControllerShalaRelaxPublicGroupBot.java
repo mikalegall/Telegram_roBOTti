@@ -2,7 +2,7 @@
  * 
  */
 package yoga.kulatantra;
-
+//import org.apache.log4j.Logger;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -24,7 +24,8 @@ import yoga.kulatantra.Services.ReplyForPhoto;
  *
  */
 public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
-
+//	private static final Logger log = Logger.getLogger(ControllerShalaRelaxPublicGroupBot.class);
+	
 	String welcomeText = "Tässä ryhmässä on Shala Relax puolesta mukana"
 			+ "\r\n"
 			+ "Avustaja (chat robotti),"
@@ -50,7 +51,7 @@ public class ControllerShalaRelaxPublicGroupBot extends TelegramLongPollingBot {
 	
 	@Override
 	public void onUpdateReceived(Update update) {
-
+//		log.debug("Public group chat update-message = " + update.toString());
 		String replieForPhoto;
 		
 		// Users display name on smartphone

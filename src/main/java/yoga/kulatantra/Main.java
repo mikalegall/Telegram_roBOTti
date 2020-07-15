@@ -1,5 +1,6 @@
 package yoga.kulatantra;
 
+import org.apache.log4j.BasicConfigurator;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -13,7 +14,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class Main {
 
 	public static void main(String[] args) {
-
+		
+//		https://stackoverflow.com/questions/12532339/no-appenders-could-be-found-for-loggerlog4j
+		BasicConfigurator.configure();
+		
 		// Example taken from https://github.com/rubenlagus/TelegramBotsExample
 		ApiContextInitializer.init();
 		TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
