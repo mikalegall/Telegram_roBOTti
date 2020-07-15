@@ -67,33 +67,17 @@ public class AzurePhotoComputerVisionManualTest {
 				i++;
 			}
 		}
-		log.debug("\r\n\r\n\r\n************************************************************************************************** EKA AzurePhotoComputerVision AnalyzeImage() tagNoun = "
-				+ "\r\n\r\n"
-				+ tagNoun
-				+ "\r\n\r\n\r\n"
-				+ "**************************************************************************************************\r\n\r\n\r\n");
 		List<String> tagNounTranslatedAndAccentColor = new ArrayList<>();
 		if (analysis != null) {
 				try {
 					tagNounTranslatedAndAccentColor = GoogleTranslateText.googleTranslateText(tagNoun);
 				} catch (IOException e) {
-					log.debug("\r\n\r\n\r\n************************************************************************************************** IOException e = "
-							+ "\r\n\r\n"
-							+ e
-							+ "\r\n\r\n\r\n"
-							+ "**************************************************************************************************\r\n\r\n\r\n");
 					e.printStackTrace();
 				}
 				if (analysis != null && analysis.color().accentColor() != null) {
 					tagNounTranslatedAndAccentColor.add(analysis.color().accentColor());
 				}
 		}
-
-		log.debug("VIIDES AzurePhotoComputerVision AnalyzeImage() AZURE ja GOOGLE PALAUTTAA NIITÄ KUTSUNEELLE METODILLE tagNounTranslatedAndAccentColor.toString() = "
-				+ "\r\n"
-				+ tagNounTranslatedAndAccentColor.toString()
-				+ "\r\n\r\n\r\n"
-				+ "**************************************************************************************************\r\n\r\n\r\n");
 
 		return tagNounTranslatedAndAccentColor;
 		

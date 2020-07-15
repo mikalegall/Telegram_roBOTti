@@ -1,6 +1,6 @@
 package yoga.kulatantra.Services;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import com.microsoft.azure.cognitiveservices.vision.computervision.models.Visual
 
 // https://docs.microsoft.com/fi-fi/azure/cognitive-services/computer-vision/quickstarts-sdk/client-library?pivots=programming-language-java
 public class AzurePhotoComputerVision {
-	private static final Logger log = Logger.getLogger(AzurePhotoComputerVision.class);
+//	private static final Logger log = Logger.getLogger(AzurePhotoComputerVision.class);
 
 	public static List<String> sendPhotoToAzure(String subscriptionKey, String endpoint, String pathToImage) {
 
@@ -26,6 +26,7 @@ public class AzurePhotoComputerVision {
 		return AnalyzeImage(compVisClient, pathToImage);
 
 	}
+
 
 	public static List<String> AnalyzeImage(ComputerVisionClient compVisClient, String pathToImage) {
 
@@ -91,13 +92,6 @@ public class AzurePhotoComputerVision {
 				i++;
 			}
 		}
-		log.debug("\r\n\r\n\r\n************************************************************************************************** EKA AzurePhotoComputerVision AnalyzeImage() tagNoun = "
-				+ "\r\n\r\n"
-				+ tagNoun
-				+ "\r\n\r\n\r\n"
-				+ "**************************************************************************************************\r\n\r\n\r\n");
-
-
 		// Substantiivin vois ehkä käännättää suomeksi ilmaiseksikin ennen kuin lähettää
 		// sen takaisin ihmiskäyttäjälle
 		// https://rapidapi.com/googlecloud/api/google-translate1/pricing
@@ -132,26 +126,14 @@ public class AzurePhotoComputerVision {
 		try {
 			tagNounTranslatedAndAccentColor = GoogleTranslateText.googleTranslateText(tagNoun);
 		} catch (IOException e) {
-			log.debug("\r\n\r\n\r\n************************************************************************************************** IOException e = "
-					+ "\r\n\r\n"
-					+ e
-					+ "\r\n\r\n\r\n"
-					+ "**************************************************************************************************\r\n\r\n\r\n");
-
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		if (analysis != null && analysis.color().accentColor() != null) {
 			tagNounTranslatedAndAccentColor.add(analysis.color().accentColor());
 		}
 		
-		log.debug("VIIDES AzurePhotoComputerVision AnalyzeImage() AZURE ja GOOGLE PALAUTTAA NIITÄ KUTSUNEELLE METODILLE tagNounTranslatedAndAccentColor.toString() = "
-				+ "\r\n"
-				+ tagNounTranslatedAndAccentColor.toString()
-				+ "\r\n\r\n\r\n"
-				+ "**************************************************************************************************\r\n\r\n\r\n");
-
 		return tagNounTranslatedAndAccentColor;
-
 	}
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import yoga.kulatantra.Classes.UserIdAndIndex;
  *
  */
 public class ReplyForPhoto {
-	private static final Logger log = Logger.getLogger(ReplyForPhoto.class);
+//	private static final Logger log = Logger.getLogger(ReplyForPhoto.class);
 	
     // Enviroment variables for Heroku to communicate with Azure
 	static String subscriptionKey = System.getenv().get("COMPUTER_VISION_SUBSCRIPTION_KEY");
@@ -52,18 +52,12 @@ public class ReplyForPhoto {
 					String noun3 = "";
 					String accentColor;
 					List<String> tagNounTranslatedAndAccentColor = AzurePhotoComputerVision.sendPhotoToAzure(subscriptionKey, endpoint, pathToImage);
-					log.debug("KUUDES ReplyForPhoto replyForPhoto() KÄSITTELYSSÄ tagNounTranslatedAndAccentColor.toString() = "
-							+ "\r\n"
-							+ tagNounTranslatedAndAccentColor.toString()
-							+ "\r\n\r\n\r\n"
-							+ "**************************************************************************************************\r\n\r\n\r\n");
 
-					// If response has only one element then it means that error has ocurred
+					// If response has only one element then it means that error has occurred
 					if (tagNounTranslatedAndAccentColor.size() == 1) {
 						replieForPhoto = responseForGroupPhotoIndexViaAzureAndGoogle.get(0).replace("TELEGRAM_FirstName", firstName)
 								+ "\r\n\r\n"
 								+ tagNounTranslatedAndAccentColor.get(0);
-//						replieForPhoto = responseForGroupPhotoIndexViaAzureAndGoogle.get(0).replace("TELEGRAM_FirstName", firstName);
 						return replieForPhoto;
 					} else {
 						noun1 = tagNounTranslatedAndAccentColor.get(0);
