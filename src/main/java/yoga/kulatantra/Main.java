@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 // heroku login
 // Google credentials on json format into Heroku enviroment variable
 // https://elements.heroku.com/search/buildpacks?q=GOOGLE_APPLICATION_CREDENTIALS
-
+//
 // heroku logs --app stagingshalarelax --source app --tail
 // heroku run bash --app stagingshalarelax
 
