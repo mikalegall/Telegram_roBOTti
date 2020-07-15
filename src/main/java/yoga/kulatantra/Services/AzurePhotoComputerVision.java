@@ -1,5 +1,6 @@
 package yoga.kulatantra.Services;
 
+//import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,38 +11,34 @@ import com.microsoft.azure.cognitiveservices.vision.computervision.models.ImageA
 import com.microsoft.azure.cognitiveservices.vision.computervision.models.ImageTag;
 import com.microsoft.azure.cognitiveservices.vision.computervision.models.VisualFeatureTypes;
 
-
 // https://docs.microsoft.com/fi-fi/azure/cognitive-services/computer-vision/quickstarts-sdk/client-library?pivots=programming-language-java
 public class AzurePhotoComputerVision {
-	
+//	private static final Logger log = Logger.getLogger(AzurePhotoComputerVision.class);
+
 	public static List<String> sendPhotoToAzure(String subscriptionKey, String endpoint, String pathToImage) {
 
 		ComputerVisionClient compVisClient = ComputerVisionManager.authenticate(subscriptionKey).withEndpoint(endpoint);
-		
+
 		// Recognize printed text with OCR for a local and remote (URL) image
 		// RecognizeTextOCRLocal(compVisClient);
 
 		// Analyze local and remote images
 		return AnalyzeImage(compVisClient, pathToImage);
-		
+
 	}
-	
+
 	public static List<String> AnalyzeImage(ComputerVisionClient compVisClient, String pathToImage) {
-		
+
 		// This list defines the features to be extracted from the image.
 		List<VisualFeatureTypes> featuresToExtractFromImage = new ArrayList<>();
 //	    featuresToExtractFromImage.add(VisualFeatureTypes.DESCRIPTION);
 //	    featuresToExtractFromImage.add(VisualFeatureTypes.CATEGORIES);
-	    featuresToExtractFromImage.add(VisualFeatureTypes.TAGS);
+		featuresToExtractFromImage.add(VisualFeatureTypes.TAGS);
 //	    featuresToExtractFromImage.add(VisualFeatureTypes.FACES);
 //	    featuresToExtractFromImage.add(VisualFeatureTypes.ADULT);
-	    featuresToExtractFromImage.add(VisualFeatureTypes.COLOR);
+		featuresToExtractFromImage.add(VisualFeatureTypes.COLOR);
 //	    featuresToExtractFromImage.add(VisualFeatureTypes.IMAGE_TYPE);
-	 
 
-
-	    
-	    
 //	    
 //*********************************  IF LOCAL IMAGE THEN USE THIS *********************************
 //	    // Need a byte array for analyzing a local image.
@@ -66,41 +63,38 @@ public class AzurePhotoComputerVision {
 //*********************************  *********************************
 //
 
+		// Call the Computer Vision service and tell it to analyze the loaded image.
+		List<String> tagNoun = new ArrayList<>();
+		ImageAnalysis analysis = null;
+		boolean code400flag = false;
+		try {
+			analysis = compVisClient.computerVision().analyzeImage().withUrl(pathToImage)
+					.withVisualFeatures(featuresToExtractFromImage).execute();
+		} catch (Exception e) {
+			tagNoun.add("\r\nAzurePhotoComputerVision exception:\r\n" + e.toString());
+			code400flag = true;
+		}
 
+		// If Telegram's URLpath to fetch a file is broken again don't send anything to
+		// Google translator
+		if (code400flag) {
+			return tagNoun;
+		}
 
-	    
-	    // Call the Computer Vision service and tell it to analyze the loaded image.
-        List<String> tagNoun = new ArrayList<>();
-	    ImageAnalysis analysis = null;
-	    boolean code400flag = false;
-        try {
-            analysis = compVisClient.computerVision().analyzeImage().withUrl(pathToImage)
-                    .withVisualFeatures(featuresToExtractFromImage).execute();
-        }catch (Exception e) {
-                tagNoun.add("code400flag");
-                code400flag = true;
-            }
+		if (analysis != null) {
+			int i = 0;
+			// Add image tags 2-4 to list which will be send to Google translator
+			for (ImageTag tag : analysis.tags()) {
+				if (i > 0 && i < 4) {
+					tagNoun.add(tag.name());
+				}
+				i++;
+			}
+		}
 
-        // If Telegram's URLpath to fetch a file is broken again don't send anything to Google translator
-        if(code400flag) {
-        	return tagNoun;
-        }
-
-
-
-        if(analysis !=null) {
-        	int i = 0;
-        		// Add image tags 2-4 to list which will be send to Google translator
-        		for (ImageTag tag : analysis.tags()) {
-        			if(i>0 && i<4) {
-        				tagNoun.add(tag.name());
-        			}
-	        i++;
-        		}
-        }
-	    
-	    // Substantiivin vois ehkä käännättää suomeksi ilmaiseksikin ennen kuin lähettää sen takaisin ihmiskäyttäjälle
-	    // https://rapidapi.com/googlecloud/api/google-translate1/pricing        
+		// Substantiivin vois ehkä käännättää suomeksi ilmaiseksikin ennen kuin lähettää
+		// sen takaisin ihmiskäyttäjälle
+		// https://rapidapi.com/googlecloud/api/google-translate1/pricing
 //	    OkHttpClient client = new OkHttpClient();
 //	    
 ////	    https://translate.google.fi/?hl=fi&op=translate&sl=en&tl=fi&text=
@@ -127,20 +121,18 @@ public class AzurePhotoComputerVision {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-	    
 
-	 List<String> tagNounTranslatedAndAccentColor = new ArrayList<>();
-	 try {
-		 tagNounTranslatedAndAccentColor = GoogleTranslateText.googleTranslateText(tagNoun);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	 if(analysis !=null && analysis.color().accentColor() !=null) {
-	 tagNounTranslatedAndAccentColor.add(analysis.color().accentColor());
-	 }
-	 return tagNounTranslatedAndAccentColor;
+		List<String> tagNounTranslatedAndAccentColor = new ArrayList<>();
+		try {
+			tagNounTranslatedAndAccentColor = GoogleTranslateText.googleTranslateText(tagNoun);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (analysis != null && analysis.color().accentColor() != null) {
+			tagNounTranslatedAndAccentColor.add(analysis.color().accentColor());
+		}
+		return tagNounTranslatedAndAccentColor;
 
-	 
 	}
 }
