@@ -9,10 +9,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 // --> worker: java $JAVA_OPTS -jar target/myTargetJar-SNAPSHOT.jar
 // https://stackoverflow.com/a/47997801/8639325
 
-// heroku login
-// Google credentials on json format into Heroku enviroment variable
-// https://elements.heroku.com/search/buildpacks?q=GOOGLE_APPLICATION_CREDENTIALS
-//
 // heroku logs --app stagingshalarelax --source app --tail
 // heroku run bash --app stagingshalarelax
 
