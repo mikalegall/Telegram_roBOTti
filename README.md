@@ -13,3 +13,4 @@ Shala Relax kotisivu löytyy [täältä](https://www.facebook.com/Shala-Relax-10
 <br />
 <br />
 PS. Markdown [Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Adam Pritchard repo")
+<br />
