@@ -1,6 +1,8 @@
 language: java
 jdk:
 - oraclejdk8
+#dist: xenial
+dist: trusty
 #install:
 #- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 #script:
