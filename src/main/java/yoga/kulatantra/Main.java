@@ -6,8 +6,10 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+// Travis https://docs.travis-ci.com/user/deployment/heroku/
+
 // Heroku Procfile
-// --> worker: java $JAVA_OPTS -jar target/myTargetJar-SNAPSHOT.jar
+// --> worker: java $JAVA_OPTS -jar target/*.jar
 // https://stackoverflow.com/a/47997801/8639325
 
 // heroku logs --app stagingshalarelax --source app --tail
